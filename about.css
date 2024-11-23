@@ -1,0 +1,352 @@
+@font-face {
+    font-family: "Hepta Slab", serif;
+    src: url('https://fonts.googleapis.com/css2?family=Hepta+Slab:wght@1..900&display=swap');
+    font-optical-sizing: auto;
+    font-weight: 500, 400, 600;
+    font-style: normal;
+    unicode-range: U+0041-005A, U+0061-007A, U+0030-0039;
+}
+
+@font-face {
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    src: url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css');
+    font-weight: 500, 400, 700;
+    font-style: normal;
+    unicode-range: U+AC00-D7A3;
+}
+
+body{font-size: calc(0.5vw + 0.5rem);
+    line-height: 150%;
+    font-family: 'Hepta Slab', 'Pretendard Variable';
+word-break: keep-all; margin: 0;
+font-weight: 500;
+overscroll-behavior: none;}
+
+body ::selection {
+    background-color: #000000;
+    color: #E0FC61;
+    }
+
+body::-webkit-scrollbar {
+    display: none;}
+    h1,h2,h3,h4,h5,h6{padding: 0px; margin: 0; font-weight: 600;}
+    h1{ font-size: 2rem; line-height: 150%;}
+    h2{ line-height: 150%; margin-top: 30px;}
+    h6{font-size: 20px;}
+    p{font-weight: 500; font-size: 1.1rem; line-height: 160%;}
+    b{font-weight: 700;}
+    
+
+    nav{position: fixed; text-align: right;
+        right: 0; top: 0;
+      margin-top: 30px;
+      margin-right: 2.5vw;
+      font-family: "Hepta Slab", serif;     
+      font-weight: 500;
+      font-size: 3em;
+      z-index: 100;
+      letter-spacing :-0.02em;
+      display: flex;}
+    a{text-decoration: none; color: #000000;}
+    nav a{margin-left: 10px;}
+    #about{width: 4em;}
+    #project{width: 4.05em;}
+    #designer{width: 4.9em;}
+    #archive{width: 4.3em;}
+
+
+    .logo{
+        z-index: 1000;
+        user-select: none;
+        width: 200px; 
+        position: fixed; 
+        top: 60vh; 
+        right: 2.5vw;
+        }
+
+   /*------top 버튼------*/
+#top{user-select: none; position: fixed; bottom: -350px; right: 48px; z-index: 99; transition: all 0.3s;} /* Hidden by default */
+#top:hover{bottom: -160px; filter:blur(0px); -webkit-filter: blur(0px);}
+
+
+
+/*------1------*/
+.aboutbg{ position: fixed;
+    height: 100vh;
+    width: 100vw;
+    background: conic-gradient(#fff 25%, #ddd 25% 50%, 
+		#fff 50% 75%, #ddd 75%);
+	background-size: 16px 16px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+ }
+ .movetool{margin-top: calc(1vw + 1rem); height: 100vh; position: absolute; min-width: 900px; min-height: 700px; aspect-ratio: 4 / 3;}
+ .logo_about {
+    top: 26vh;
+    left: calc(50vw - 35vh);
+    position: absolute;
+    width: 70vh;
+    height: 50vh;
+    pointer-events: none;
+    user-select: none;
+    transition: opacity 0.3s ease; /* Add a transition for opacity */
+}
+
+.poster{ position: absolute; width: 27%; min-width: 200px; aspect-ratio: 1 / 1.414; background-size: cover; box-shadow: 0px 10px 10px rgb(0, 0, 0, 0.2); cursor: grab;}
+.poster.ux{ top:20%; left: 7%; background-image: url("../resource/poster_ux.png"); transform: rotateZ(5deg);}
+.poster.id{top:40%; left: 20%;  background-image: url("../resource/poster_id.png"); transform: rotateZ(-3deg);}
+.poster.cx{bottom:40%; right: 20%; background-image: url("../resource/poster_cx.png"); transform: rotateZ(2deg);} 
+.poster.vd{bottom:20%; right: 7%; background-image: url("../resource/poster_vd.png"); transform: rotateZ(-6deg);}
+.poster.ed{bottom:12%; right: 31%;  background-image: url("../resource/poster_ed.png"); transform: rotateZ(8deg);}
+.poster.il{top:12%; left: 31%; background-image: url("../resource/poster_il.png"); transform: rotateZ(-2deg);}
+/*.poster:active{ box-shadow: 0px 20px 20px rgb(0, 0, 0, 0.2); transform: rotateZ(0deg); transition: all 0.5s;}*/
+
+
+
+/*------2------*/
+.aboutwhite{ position: relative; top:100vh; width: 100vw; background-color: white; z-index: 3; box-shadow: 0px -10px 30px 10px rgb(0, 0, 0, 0.2);}
+.navbg{
+    background: linear-gradient(180deg, rgba(255,255,255,1) 30%, rgba(255,255,255,0.7) 70%, rgba(255,255,255,0) 100%); height: 10vh;
+    /* background: #fff; height: 8vh; */
+    position: sticky; top:0; z-index: 2; width: 100vw; }
+
+.grid{
+    margin: 0 20vw 0 20vw;
+    width: 60vw;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+	grid-template-rows: repeat(5, minmax(20px, auto));
+    row-gap: 100px;
+	/* row의 간격을 10px로 */
+	column-gap: 20px;
+	/* column의 간격을 20px로 */
+    grid-template-areas:
+    "title title"
+    "faculty committee"
+    "sponsor sponsor_logo"
+    "special thanks";}
+
+.title{ grid-area: title;}
+.title p{margin:0; line-height: 180%; }
+.grid h2{margin-bottom: 10px;}
+
+.faculty{ grid-area: faculty;}
+.committee{ grid-area: committee;}
+.sponsor{ grid-area: sponsor;}
+.sponsor_logo{ grid-area: sponsor_logo;}
+.special{ grid-area: special;}
+.thanks{ grid-area: thanks;}
+
+
+.credit{ display: grid;
+margin:0;
+grid-template-columns: 40% 60%;
+grid-template-rows: repeat(auto, minmax(20px, auto));
+column-gap: 20px;
+row-gap: 30px;}
+.credit p{margin: 0; font-size: 16px; line-height: 180%;}
+.grid h1{font-size: 36px; margin-bottom: 40px;}
+
+
+.about_img{ width: 4rem; transform: translateY(0.25rem); margin-left: 0.3rem; margin-right: 0.25rem; user-select: none;}
+/*.hide {
+    display: none;
+}
+
+.drag-over {
+    border: 2px dashed #000;
+}*/
+.footerback{
+    z-index: 10;
+    box-sizing: border-box;
+    padding-left: 2.5vw;
+    padding-right: 2.5vw;
+    position: relative;
+    bottom: 0;
+    height: 100px;
+    width: 100vw;
+    background-color: white;
+    color:#ABACAD;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 500;}
+.logo_footer{ height: 40px;  display: flex; align-items: center;}
+
+
+
+
+
+
+@media (max-width: 768px) and (orientation: portrait) {
+
+    .grid{
+        display: block;
+        margin: 0 5vw 0 5vw;
+        width: 90vw;
+        row-gap: 100px;
+        grid-template-areas:
+        "title"
+        "title"
+        "faculty"
+        "committee"
+        "sponsor" 
+        "sponsor_logo"
+        "special" 
+        "thanks";
+        margin-bottom: 100px;
+    grid-template-columns: repeat(1, 1fr);
+	grid-template-rows: repeat(8, minmax(20px, auto));    
+    }
+
+
+    .logo{
+        z-index: 1000;
+        width: 140px; 
+        }
+
+    nav {
+        position: fixed;
+        text-align: right;
+        right: 0;
+        top: 0;
+        width: 100%;
+        margin-top: 10px;
+        margin-right: auto;
+        font-size: 3.5em;
+        z-index: 2;
+        letter-spacing: -0.02em;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        transition: top 0.3s ease; /* 부드러운 전환 효과 추가 */
+        }
+      nav a {margin-top: 1rem; right: 0; height: 30px;}
+      a{text-decoration: none; color: #000000;}
+      #about{width: 3.5em;}
+      #project{width: 4.05em;}
+      #designer{width: 4.9em;}
+      #archive{width: 4.3em;}
+     
+      .title h1 {
+        padding-top: 24px;
+        margin-top: 0px; /* 원하는 스타일 */
+      }  
+    h1{margin-top: 120px;}
+    h2{font-size: 16pt;}
+      .navbg{
+        background: linear-gradient(180deg, rgba(255,255,255,1) 30%, rgba(255,255,255,0.7) 70%, rgba(255,255,255,0) 100%); height: 20vh;
+        /* background: #fff; height: 8vh; */
+        position: sticky; top:0; z-index: 2; width: 100vw; }
+
+      .poster {
+        width: 20%;
+        background-color: lightcoral;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        cursor: grab;
+        touch-action: none; /* 모바일 환경에서 스크롤 방지 */
+      }
+      #top{width: 90px; user-select: none; position: fixed; bottom: -350px; right: 2.5vw; z-index: 99; transition: all 0.3s;} /* Hidden by default */
+      #top:active{bottom: -160px; filter:blur(0px); -webkit-filter: blur(0px);}
+
+
+
+        /*------1------*/
+        .aboutbg{ position: fixed;
+            height: 100vh;
+            width: 100vw;
+            background: conic-gradient(#fff 25%, #ddd 25% 50%, 
+                #fff 50% 75%, #ddd 75%);
+            background-size: 16px 16px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+        }
+        .movetool{margin-top: calc(1vw + 1rem); height: 100vh; width: 100vw; position: absolute; }
+        .logo_about {
+            top: 26vh;
+            left: 10vw;
+            position: absolute;
+            width: 80vw;
+
+            pointer-events: none;
+            user-select: none;
+            transition: opacity 0.3s ease; /* Add a transition for opacity */
+        }
+
+        .poster{ position: absolute; width: 20%; min-width: 80px; aspect-ratio: 1 / 1.414; background-size: cover; box-shadow: 0px 10px 10px rgb(0, 0, 0, 0.2); cursor: grab;}
+        .poster.ux{ top:55%; left:42%; background-image: url("../resource/poster_ux.png"); transform: rotateZ(5deg);}
+        .poster.id{top:50%; left: 54%;  background-image: url("../resource/poster_id.png"); transform: rotateZ(-3deg);}
+        .poster.cx{top:50%; left: 29%; background-image: url("../resource/poster_cx.png"); transform: rotateZ(2deg);} 
+        .poster.vd{top:29%; left: 55%; background-image: url("../resource/poster_vd.png"); transform: rotateZ(-6deg);}
+        .poster.ed{top:25%; left: 42%;  background-image: url("../resource/poster_ed.png"); transform: rotateZ(8deg);}
+        .poster.il{top:29%; left: 28%; background-image: url("../resource/poster_il.png"); transform: rotateZ(-2deg);}
+        /*.poster:active{ box-shadow: 0px 20px 20px rgb(0, 0, 0, 0.2); transform: rotateZ(0deg); transition: all 0.5s;}*/
+
+
+
+        /*------2------*/
+        .aboutwhite{ position: relative; top:100vh; width: 100vw; background-color: white; z-index: 3; box-shadow: 0px -10px 30px 10px rgb(0, 0, 0, 0.2); padding-bottom: 50px;}
+        .navbg{display: none;
+            /* background: #fff; height: 8vh; */
+            position: sticky; top:0; z-index: 2; width: 100vw; }
+        
+
+        .title{ grid-area: title;}
+        .title p{margin:0; line-height: 180%; }
+        .grid h2{margin-bottom: 10px;}
+
+        .faculty{ grid-area: faculty;}
+        .committee{ grid-area: committee;}
+        .sponsor{ grid-area: sponsor;}
+        .sponsor_logo{ grid-area: sponsor_logo;}
+        .special{ grid-area: special;}
+        .thanks{ grid-area: thanks;}
+
+
+        .credit{ display: grid;
+        margin:0;
+        grid-template-columns: 45% 50%;
+        grid-template-rows: repeat(auto, minmax(20px, auto));
+        column-gap: 20px;
+        row-gap: 30px;}
+        .credit p{margin: 0; font-size: 16px; line-height: 180%;}
+        
+
+
+        .about_img{ width: 4rem; transform: translateY(0.25rem); margin-left: 0.3rem; margin-right: 0.25rem; user-select: none;}
+        /*.hide {
+            display: none;
+        }
+
+        .drag-over {
+            border: 2px dashed #000;
+        }*/
+        
+
+        .footerback{
+            box-sizing: border-box;
+            padding-left: 4.5vw;
+            padding-right: 4.5vw;
+            top: calc(100vh - 100px);
+            height: 100px;
+            width: 100vw;
+            background: white;
+            color:#ABACAD;
+            align-items: center;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 500;
+            position: fixed;
+        }
+        .logo_footer{ width: 25%; height: 65px;  display: flex; align-items: center; transform: scale(0.7);}
+     
+
+    }
+
