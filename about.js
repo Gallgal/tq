@@ -28,20 +28,7 @@ archive.addEventListener('mouseleave', () => {
 });
 
 
-function updateTextForMobile() {
-  // 모바일인지 확인 (화면 너비 기준)
-  if (window.innerWidth <= 768) {
-    document.getElementById("footer2").innerText = "SEOULTECH VISUAL COMMUNICATION DESIGN 42ST GRADUATION EXHIBITION WEBSTIE ‘FIND ME!’ 2024ⓒSeoul National University of Science and Technology. All Rights Reserved.";
-  } else { 
-    document.getElementById("footer2").innerText = "SEOULTECH VISUAL COMMUNICATION DESIGN 42ST GRADUATION EXHIBITION WEBSTIE ‘FIND ME!’ \n 2024ⓒSeoul National University of Science and Technology. All Rights Reserved.";
-  }
-};
 
-// 페이지 로드 시 실행
-updateTextForMobile();
-
-// 화면 크기 변경 시에도 실행
-window.addEventListener("resize", updateTextForMobile);
 
 // ----------------- back to top -------------------
 // Get the button:
@@ -86,68 +73,71 @@ topbtn.onmouseout = function() {
 };
 
 
-const posters = document.querySelectorAll(".poster");
 
-posters.forEach(poster => {
-  let isDragging = false;
-  let startX, startY, initialX, initialY;
+// ---------------- drag poster ----------------
+document.addEventListener('DOMContentLoaded', (event) => {
+  const posters = document.querySelectorAll('.poster');
+  let isDragging = false; // 드래그 상태를 추적할 변수
 
-  // 공통 핸들러: 이벤트 타입에 따라 터치/마우스 구분
-  function getEventPosition(e) {
-    if (e.touches) {
-      const touch = e.touches[0]; // 첫 번째 터치만 사용
-      return { x: touch.clientX, y: touch.clientY };
-    } else {
-      return { x: e.clientX, y: e.clientY };
-    }
-  }
+  // 각 포스터의 초기 transform 값을 저장
+  const initialTransforms = {};
+  posters.forEach(poster => {
+    initialTransforms[poster.id] = poster.style.transform;
+  });
 
-  // 드래그 시작
-  function startDrag(e) {
-    isDragging = true;
-    const { x, y } = getEventPosition(e);
-    startX = x;
-    startY = y;
-    initialX = poster.offsetLeft;
-    initialY = poster.offsetTop;
+  posters.forEach(poster => {
+    poster.onmousedown = function(event) {
+      // 스크롤 위치가 0일 때만 드래그 이벤트를 처리하도록 조건 추가
+      if (window.scrollY !== 0) {
+        return;
+      }
 
-    // 스크롤 방지 (터치 이벤트에서 중요)
-    e.preventDefault();
-  }
+      isDragging = true; // 드래그 시작
+      let shiftX = event.clientX - poster.getBoundingClientRect().left;
+      let shiftY = event.clientY - poster.getBoundingClientRect().top;
 
-  // 드래그 중
-  function dragging(e) {
-    if (!isDragging) return;
+      // movetool 요소를 찾음
+      const movetool = document.querySelector('.movetool');
 
-    const { x, y } = getEventPosition(e);
-    const deltaX = x - startX;
-    const deltaY = y - startY;
+      if (movetool) {
+        movetool.appendChild(poster);
+        poster.style.position = 'absolute';
+        poster.style.zIndex = '1';
+        poster.style.left = (event.clientX - shiftX - movetool.getBoundingClientRect().left) + 'px';
+        poster.style.top = (event.clientY - shiftY - movetool.getBoundingClientRect().top) + 'px';
+      } else {
+        poster.style.position = 'fixed';
+        document.body.append(poster);
+      }
 
-    // 위치 업데이트
-    poster.style.left = `${initialX + deltaX}px`;
-    poster.style.top = `${initialY + deltaY}px`;
+      function moveAt(pageX, pageY) {
+        if (movetool) {
+          poster.style.left = (pageX - shiftX - movetool.getBoundingClientRect().left) + 'px';
+          poster.style.top = (pageY - shiftY - movetool.getBoundingClientRect().top) + 'px';
+        } else {
+          poster.style.left = pageX - shiftX + 'px';
+          poster.style.top = pageY - shiftY + 'px';
+        }
+      }
 
-    e.preventDefault();
-  }
+      function onMouseMove(event) {
+        moveAt(event.pageX, event.pageY);
+      }
 
-  // 드래그 종료
-  function endDrag() {
-    isDragging = false;
-  }
+      function onMouseUp() {
+        isDragging = false; // 드래그 종료
+        window.removeEventListener('mousemove', onMouseMove);
+        window.removeEventListener('mouseup', onMouseUp);
+        poster.onmouseup = null;
+      }
 
-  // 이벤트 리스너 추가
-  if ("ontouchstart" in window) {
-    // 모바일: 터치 이벤트
-    poster.addEventListener("touchstart", startDrag);
-    poster.addEventListener("touchmove", dragging);
-    poster.addEventListener("touchend", endDrag);
-  } else {
-    // 데스크톱: 마우스 이벤트
-    poster.addEventListener("mousedown", startDrag);
-    document.addEventListener("mousemove", dragging);
-    document.addEventListener("mouseup", endDrag);
-  }
-});
+      window.addEventListener('mousemove', onMouseMove);
+      window.addEventListener('mouseup', onMouseUp);
+      poster.ondragstart = function() {
+        return false;
+      };
+    };
+  });
 
   // 흔들기 함수 추가
   function shakePoster() {
@@ -181,10 +171,7 @@ posters.forEach(poster => {
   
   // 5초마다 계속 흔들리도록 설정
   setInterval(shakePoster, 5000);
-;
-
-
-
+});
 
 
 
