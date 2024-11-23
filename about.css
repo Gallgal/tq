@@ -273,12 +273,12 @@ row-gap: 30px;}
         }
 
         .poster{ position: absolute; width: 20%; min-width: 80px; aspect-ratio: 1 / 1.414; background-size: cover; box-shadow: 0px 10px 10px rgb(0, 0, 0, 0.2); cursor: grab;}
-        .poster.ux{ top:55%; left:42%; background-image: url("../resource/poster_ux.png"); transform: rotateZ(5deg);}
-        .poster.id{top:50%; left: 54%;  background-image: url("../resource/poster_id.png"); transform: rotateZ(-3deg);}
-        .poster.cx{top:50%; left: 29%; background-image: url("../resource/poster_cx.png"); transform: rotateZ(2deg);} 
-        .poster.vd{top:29%; left: 55%; background-image: url("../resource/poster_vd.png"); transform: rotateZ(-6deg);}
-        .poster.ed{top:25%; left: 42%;  background-image: url("../resource/poster_ed.png"); transform: rotateZ(8deg);}
-        .poster.il{top:29%; left: 28%; background-image: url("../resource/poster_il.png"); transform: rotateZ(-2deg);}
+        .poster.ux{ top:55%; left:42%; background-image: url("resource/poster_ux.png"); transform: rotateZ(5deg);}
+        .poster.id{top:50%; left: 54%;  background-image: url("resource/poster_id.png"); transform: rotateZ(-3deg);}
+        .poster.cx{top:50%; left: 29%; background-image: url("resource/poster_cx.png"); transform: rotateZ(2deg);} 
+        .poster.vd{top:29%; left: 55%; background-image: url("resource/poster_vd.png"); transform: rotateZ(-6deg);}
+        .poster.ed{top:25%; left: 42%;  background-image: url("resource/poster_ed.png"); transform: rotateZ(8deg);}
+        .poster.il{top:29%; left: 28%; background-image: url("resource/poster_il.png"); transform: rotateZ(-2deg);}
         /*.poster:active{ box-shadow: 0px 20px 20px rgb(0, 0, 0, 0.2); transform: rotateZ(0deg); transition: all 0.5s;}*/
 
 
