@@ -29,6 +29,22 @@ archive.addEventListener('mouseleave', () => {
 
 
 
+function updateTextForMobile() {
+  // 모바일인지 확인 (화면 너비 기준)
+  if (window.innerWidth <= 768) {
+    document.getElementById("footer2").innerText = "SEOULTECH VISUAL COMMUNICATION DESIGN 42ST GRADUATION EXHIBITION WEBSTIE ‘FIND ME!’ 2024ⓒSeoul National University of Science and Technology. All Rights Reserved.";
+  } else { 
+    document.getElementById("footer2").innerText = "SEOULTECH VISUAL COMMUNICATION DESIGN 42ST GRADUATION EXHIBITION WEBSTIE ‘FIND ME!’ \n 2024ⓒSeoul National University of Science and Technology. All Rights Reserved.";
+  }
+}
+
+// 페이지 로드 시 실행
+updateTextForMobile();
+
+// 화면 크기 변경 시에도 실행
+window.addEventListener("resize", updateTextForMobile);
+
+
 
 // ----------------- back to top -------------------
 // Get the button:
@@ -75,100 +91,96 @@ topbtn.onmouseout = function() {
 
 
 // ---------------- drag poster ----------------
-document.addEventListener('DOMContentLoaded', (event) => {
-  const posters = document.querySelectorAll('.poster');
-  let isDragging = false; // 드래그 상태를 추적할 변수
+const posters = document.querySelectorAll(".poster");
+let isDragging = false; // 전역 변수로 선언
 
-  // 각 포스터의 초기 transform 값을 저장
-  const initialTransforms = {};
-  posters.forEach(poster => {
-    initialTransforms[poster.id] = poster.style.transform;
-  });
+posters.forEach(poster => {
+  let startX, startY, initialX, initialY;
 
-  posters.forEach(poster => {
-    poster.onmousedown = function(event) {
-      // 스크롤 위치가 0일 때만 드래그 이벤트를 처리하도록 조건 추가
-      if (window.scrollY !== 0) {
-        return;
-      }
-
-      isDragging = true; // 드래그 시작
-      let shiftX = event.clientX - poster.getBoundingClientRect().left;
-      let shiftY = event.clientY - poster.getBoundingClientRect().top;
-
-      // movetool 요소를 찾음
-      const movetool = document.querySelector('.movetool');
-
-      if (movetool) {
-        movetool.appendChild(poster);
-        poster.style.position = 'absolute';
-        poster.style.zIndex = '1';
-        poster.style.left = (event.clientX - shiftX - movetool.getBoundingClientRect().left) + 'px';
-        poster.style.top = (event.clientY - shiftY - movetool.getBoundingClientRect().top) + 'px';
-      } else {
-        poster.style.position = 'fixed';
-        document.body.append(poster);
-      }
-
-      function moveAt(pageX, pageY) {
-        if (movetool) {
-          poster.style.left = (pageX - shiftX - movetool.getBoundingClientRect().left) + 'px';
-          poster.style.top = (pageY - shiftY - movetool.getBoundingClientRect().top) + 'px';
-        } else {
-          poster.style.left = pageX - shiftX + 'px';
-          poster.style.top = pageY - shiftY + 'px';
-        }
-      }
-
-      function onMouseMove(event) {
-        moveAt(event.pageX, event.pageY);
-      }
-
-      function onMouseUp() {
-        isDragging = false; // 드래그 종료
-        window.removeEventListener('mousemove', onMouseMove);
-        window.removeEventListener('mouseup', onMouseUp);
-        poster.onmouseup = null;
-      }
-
-      window.addEventListener('mousemove', onMouseMove);
-      window.addEventListener('mouseup', onMouseUp);
-      poster.ondragstart = function() {
-        return false;
-      };
-    };
-  });
-
-  // 흔들기 함수 추가
-  function shakePoster() {
-    if (!isDragging) { // 드래그가 발생하지 않았다면
-      const randomPoster = posters[Math.floor(Math.random() * posters.length)];
-      const originalTransform = randomPoster.style.transform;
-
-      randomPoster.style.transition = 'transform 0.3s ease'; // 부드러운 전환
-      randomPoster.style.transform = 'rotateZ(-3deg)'; // 왼쪽으로 회전
-
-      setTimeout(() => {
-        randomPoster.style.transform = 'rotateZ(3deg)'; // 오른쪽으로 회전
-      }, 200);
-
-      setTimeout(() => {
-        randomPoster.style.transform = 'rotateZ(-3deg)';
-      }, 400);
-
-      setTimeout(() => {
-        randomPoster.style.transform = 'rotateZ(3deg)';
-      }, 600);
-
-      setTimeout(() => {
-        randomPoster.style.transform = originalTransform; // 원래 각도로 복원
-      }, 800);
+  // 공통 핸들러: 이벤트 타입에 따라 터치/마우스 구분
+  function getEventPosition(e) {
+    if (e.touches) {
+      const touch = e.touches[0]; // 첫 번째 터치만 사용
+      return { x: touch.clientX, y: touch.clientY };
+    } else {
+      return { x: e.clientX, y: e.clientY };
     }
   }
 
-  // 페이지 로드 시 첫 번째 흔들기 시작
-  shakePoster();
-  
-  // 5초마다 계속 흔들리도록 설정
-  setInterval(shakePoster, 5000);
+  // 드래그 시작
+  function startDrag(e) {
+    isDragging = true; // 드래그 상태 업데이트
+    const { x, y } = getEventPosition(e);
+    startX = x;
+    startY = y;
+    initialX = poster.offsetLeft;
+    initialY = poster.offsetTop;
+
+    // 스크롤 방지 (터치 이벤트에서 중요)
+    e.preventDefault();
+  }
+
+  // 드래그 중
+  function dragging(e) {
+    if (!isDragging) return;
+
+    const { x, y } = getEventPosition(e);
+    const deltaX = x - startX;
+    const deltaY = y - startY;
+
+    // 위치 업데이트
+    poster.style.left = `${initialX + deltaX}px`;
+    poster.style.top = `${initialY + deltaY}px`;
+
+    e.preventDefault();
+  }
+
+  // 드래그 종료
+  function endDrag() {
+    isDragging = false; // 드래그 상태 초기화
+  }
+
+  // 이벤트 리스너 추가
+  if ("ontouchstart" in window) {
+    poster.addEventListener("touchstart", startDrag);
+    poster.addEventListener("touchmove", dragging);
+    poster.addEventListener("touchend", endDrag);
+  } else {
+    poster.addEventListener("mousedown", startDrag);
+    document.addEventListener("mousemove", dragging);
+    document.addEventListener("mouseup", endDrag);
+  }
 });
+
+// 흔들기 함수 추가
+function shakePoster() {
+  if (!isDragging) { // 드래그가 발생하지 않았다면
+    const randomPoster = posters[Math.floor(Math.random() * posters.length)];
+    const originalTransform = randomPoster.style.transform || 'none'; // 기본값 설정
+
+    randomPoster.style.transition = 'transform 0.3s ease'; // 부드러운 전환
+    randomPoster.style.transform = 'rotateZ(-3deg)'; // 왼쪽으로 회전
+
+    setTimeout(() => {
+      randomPoster.style.transform = 'rotateZ(3deg)'; // 오른쪽으로 회전
+    }, 200);
+
+    setTimeout(() => {
+      randomPoster.style.transform = 'rotateZ(-3deg)';
+    }, 400);
+
+    setTimeout(() => {
+      randomPoster.style.transform = 'rotateZ(3deg)';
+    }, 600);
+
+    setTimeout(() => {
+      randomPoster.style.transform = originalTransform; // 원래 각도로 복원
+    }, 800);
+  }
+}
+
+// 페이지 로드 시 첫 번째 흔들기 시작
+shakePoster();
+
+// 5초마다 계속 흔들리도록 설정
+setInterval(shakePoster, 5000);
