@@ -86,69 +86,68 @@ topbtn.onmouseout = function() {
 };
 
 
+const posters = document.querySelectorAll(".poster");
 
-const poster = document.querySelector(".poster");
-const logo = document.querySelector(".logo");
+posters.forEach(poster => {
+  let isDragging = false;
+  let startX, startY, initialX, initialY;
 
-let isDragging = false;
-let startX, startY, initialX, initialY;
-
-// 공통 핸들러: 이벤트 타입에 따라 터치/마우스 구분
-function getEventPosition(e) {
-  if (e.touches) {
-    const touch = e.touches[0]; // 첫 번째 터치만 사용
-    return { x: touch.clientX, y: touch.clientY };
-  } else {
-    return { x: e.clientX, y: e.clientY };
+  // 공통 핸들러: 이벤트 타입에 따라 터치/마우스 구분
+  function getEventPosition(e) {
+    if (e.touches) {
+      const touch = e.touches[0]; // 첫 번째 터치만 사용
+      return { x: touch.clientX, y: touch.clientY };
+    } else {
+      return { x: e.clientX, y: e.clientY };
+    }
   }
-}
 
-// 드래그 시작
-function startDrag(e) {
-  isDragging = true;
-  const { x, y } = getEventPosition(e);
-  startX = x;
-  startY = y;
-  initialX = poster.offsetLeft;
-  initialY = poster.offsetTop;
+  // 드래그 시작
+  function startDrag(e) {
+    isDragging = true;
+    const { x, y } = getEventPosition(e);
+    startX = x;
+    startY = y;
+    initialX = poster.offsetLeft;
+    initialY = poster.offsetTop;
 
-  // 스크롤 방지 (터치 이벤트에서 중요)
-  e.preventDefault();
-}
+    // 스크롤 방지 (터치 이벤트에서 중요)
+    e.preventDefault();
+  }
 
-// 드래그 중
-function dragging(e) {
-  if (!isDragging) return;
+  // 드래그 중
+  function dragging(e) {
+    if (!isDragging) return;
 
-  const { x, y } = getEventPosition(e);
-  const deltaX = x - startX;
-  const deltaY = y - startY;
+    const { x, y } = getEventPosition(e);
+    const deltaX = x - startX;
+    const deltaY = y - startY;
 
-  // 위치 업데이트
-  poster.style.left = `${initialX + deltaX}px`;
-  poster.style.top = `${initialY + deltaY}px`;
+    // 위치 업데이트
+    poster.style.left = `${initialX + deltaX}px`;
+    poster.style.top = `${initialY + deltaY}px`;
 
-  e.preventDefault();
-}
+    e.preventDefault();
+  }
 
-// 드래그 종료
-function endDrag() {
-  isDragging = false;
+  // 드래그 종료
+  function endDrag() {
+    isDragging = false;
+  }
 
-};
-
-// 이벤트 리스너 추가
-if ("ontouchstart" in window) {
-  // 모바일: 터치 이벤트
-  poster.addEventListener("touchstart", startDrag);
-  poster.addEventListener("touchmove", dragging);
-  poster.addEventListener("touchend", endDrag);
-} else {
-  // 데스크톱: 마우스 이벤트
-  poster.addEventListener("mousedown", startDrag);
-  document.addEventListener("mousemove", dragging);
-  document.addEventListener("mouseup", endDrag);
-}
+  // 이벤트 리스너 추가
+  if ("ontouchstart" in window) {
+    // 모바일: 터치 이벤트
+    poster.addEventListener("touchstart", startDrag);
+    poster.addEventListener("touchmove", dragging);
+    poster.addEventListener("touchend", endDrag);
+  } else {
+    // 데스크톱: 마우스 이벤트
+    poster.addEventListener("mousedown", startDrag);
+    document.addEventListener("mousemove", dragging);
+    document.addEventListener("mouseup", endDrag);
+  }
+});
 
   // 흔들기 함수 추가
   function shakePoster() {
