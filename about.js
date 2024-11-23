@@ -172,33 +172,3 @@ document.addEventListener('DOMContentLoaded', (event) => {
   // 5초마다 계속 흔들리도록 설정
   setInterval(shakePoster, 5000);
 });
-
-
-
-
-
-
-
-  // 모바일 화면에서만 동작하도록 조건 추가
-  if (window.innerWidth <= 768) {
-    let lastScrollY = 0; // 마지막 스크롤 위치
-
-window.addEventListener("scroll", () => {
-  const nav = document.querySelector("nav");
-  const currentScrollY = window.scrollY; // 현재 스크롤 위치
-
-  if (currentScrollY > lastScrollY) {
-    // 아래로 스크롤
-    nav.style.transform = "translateY(-200px)";
-  } else {
-    // 위로 스크롤
-    nav.style.transform = "translateY(0)";
-  }
-
-  lastScrollY = currentScrollY; // 마지막 위치 업데이트
-});
-  };
-
-
-
-
